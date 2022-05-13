@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:14:11 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/13 21:43:19 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/14 00:06:48 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
         return (EXIT_FAILURE);
     }
     launch_simulation(t);
+    exit_simulation(t);
     free_all_tabs(t);
     return (EXIT_SUCCESS);
 }
