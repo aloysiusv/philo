@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:14:11 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/14 00:06:48 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/14 02:49:51 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,48 @@ static int malloc_all_tabs(t_all *t)
     return (EXIT_SUCCESS);
 }
 
-static int  free_all_tabs(t_all *t)
+static void free_all_tabs(t_all *t)
 {
     free(t->all_forks);
     free(t->phi_threads);
     free(t->phi_structs);
 }
 
+static size_t   get_starting_time()
+{
+    struct timeval    tv;
+    size_t            my_start;
+    int               ret;
+
+    ret = gettimeofday(&tv, NULL);
+    if (ret == ERROR)
+        return (EXIT_FAILURE);
+    my_start = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+    return (my_start);
+}
+
 static int  init_info(t_all *t, char *argv[])
 {
+    size_t  i;
+    size_t  start;
+
     t->nb_philo = ft_atoi(argv[1]);
-    t->usec_die = ft_atoi(argv[2]);
-    t->usec_eat = ft_atoi(argv[3]);
-    t->usec_sleep = ft_atoi(argv[4]);
-    if (argv[5])
-        t->nb_meals = ft_atoi(argv[5]);
     if (malloc_all_tabs(t) == ERROR)
     {
         printf("error: philo: 'malloc' failed\n");
         return (ERROR);
+    }
+    i = 0;
+    start = get_starting_time();
+    while (i < t->nb_philo)
+    {
+        t->phi_structs[i].milli_die = ft_atoi(argv[2]);
+        t->phi_structs[i].milli_eat = ft_atoi(argv[3]);
+        t->phi_structs[i].milli_sleep = ft_atoi(argv[4]);
+        if (argv[5])
+            t->phi_structs[i].nb_meals = ft_atoi(argv[5]);
+        t->phi_structs[i].milli_start = start;
+        i++;
     }
     return (EXIT_SUCCESS);
 }
@@ -67,13 +90,13 @@ int main(int argc, char *argv[])
     }
     if (init_info(t, argv) == ERROR)
         return (EXIT_FAILURE);
-    if (init_simulation(t) == ERROR);
+    if (init_simulation(t) == ERROR)
     {
         free_all_tabs(t);
         return (EXIT_FAILURE);
     }
-    launch_simulation(t);
-    exit_simulation(t);
+    // launch_simulation(t);
+    // exit_simulation(t);
     free_all_tabs(t);
     return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 19:02:37 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/13 19:54:17 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/14 00:46:20 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_str_only_digits(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str == "0" || ft_isdigit(str[i]) == 0)
+		if ((str[0] == '0' && ft_strlen(str) == 1) || ft_isdigit(str[i]) == 0)
 			return (ERROR);
 		i++;
 	}
