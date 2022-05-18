@@ -6,7 +6,7 @@
 #    By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/13 18:17:42 by lrandria          #+#    #+#              #
-#    Updated: 2022/05/15 01:37:56 by lrandria         ###   ########.fr        #
+#    Updated: 2022/05/17 16:08:27 by lrandria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ OBJS		=	$(SRCS:.c=.o)
 HDR			=	./philo.h
 SRCS		=	0_main.c \
 				1_checking.c \
-				2_stock_args.c \
-				3_init_simulation.c \
+				2_initialising.c \
+				3_launch_simulation.c \
 				utils.c
 
 all:			$(NAME)
