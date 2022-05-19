@@ -6,13 +6,13 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:15:12 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/19 17:18:39 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:00:56 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int did_someone_die(t_philo *p)
+static int  did_someone_die(t_philo *p)
 {
     size_t  i;
     size_t  last_meal;

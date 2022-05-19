@@ -6,17 +6,17 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:09:33 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/18 00:58:07 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:58:39 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static size_t   get_start_time()
+static size_t   get_start_time(void)
 {
-    struct timeval    tv;
-    size_t            start;
-    int               ret;
+    struct timeval  tv;
+    size_t          start;
+    int             ret;
 
     ret = gettimeofday(&tv, NULL);
     if (ret == ERROR)
