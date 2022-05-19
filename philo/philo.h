@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/18 03:42:57 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:46:30 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ int     check_args(int argc, char *argv[]);
 int     initialising(t_philo *t, char *argv[]);
 int     launch_simulation(t_philo *t);
 
-size_t	ft_strlen(const char *s);
+size_t  get_now(size_t milli_start);
+void    *god_routine(void *everyone);
+void    *eat_sleep_think(void *philo);
+
+size_t  ft_strlen(const char *s);
 int     ft_isdigit(int c);
 int     ft_atoi(const char *nptr);
 int     oops_crash(t_philo *t, char *error);
