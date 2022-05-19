@@ -6,11 +6,16 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:53:18 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/13 19:32:48 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/18 01:01:00 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -47,7 +52,25 @@ int	ft_atoi(const char *nptr)
 	return (res);
 }
 
-int 	ft_isdigit(int c)
+int    oops_crash(t_philo *t, char *error)
 {
-	return (c >= '0' && c <= '9');
+    if (t)
+        free(t);
+    printf("%s\n", error);
+    return (EXIT_FAILURE);
 }
+
+void	free_all(t_philo *t)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < t[0].nb_philo)
+	{
+		if (t[i].fork)
+			free(t[i].fork);
+		i++;
+	}
+	free(t);
+}
+
