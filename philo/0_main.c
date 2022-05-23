@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:14:11 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/19 18:35:11 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:42:43 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	set_to_zero(t_philo *t, char *argv[])
 		t[i].my_thread = 0;
 		t[i].fork = NULL;
 		t[i].nxt_fork = NULL;
+		t[i].action = NULL;
 		i++;
 	}
 }

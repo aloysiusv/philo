@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 19:02:37 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/14 00:46:20 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:11:48 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ static int	is_str_only_digits(char *str)
 	return (0);
 }
 
-int   check_args(int argc, char *argv[])
+int	check_args(int argc, char *argv[])
 {
-    size_t  i;
+	size_t	i;
 
-    if (argc < 5 || argc > 6)
-        return (ERROR);
-    i = 1;
-    while (argv[i])
+	if (argc < 5 || argc > 6)
+		return (ERROR);
+	i = 1;
+	while (argv[i])
 	{
 		if (is_str_only_digits(argv[i]) == ERROR)
 			return (ERROR);
@@ -50,5 +50,5 @@ int   check_args(int argc, char *argv[])
 			return (ERROR);
 		i++;
 	}
-    return (0);
+	return (0);
 }

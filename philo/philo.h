@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/19 18:39:25 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:29:40 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 # include <limits.h>
 # include <pthread.h>
 
-# define ERROR -1
-# define NO     0
-# define YES    1
+# define ERROR	-1
+# define NO		0
+# define YES	1
 
-typedef struct			s_philo
+typedef struct s_philo
 {
 	size_t				i_am;
 	size_t				nb_philo;
@@ -40,6 +40,7 @@ typedef struct			s_philo
 	pthread_t			my_thread;
 	pthread_mutex_t		*fork;
 	pthread_mutex_t		*nxt_fork;
+	pthread_mutex_t		*action;
 }						t_philo;
 
 int		check_args(int argc, char *argv[]);

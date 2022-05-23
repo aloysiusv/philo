@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:16:01 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/19 18:35:59 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:42:32 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,24 @@ static int	join_or_detach(t_philo *t)
 	size_t	i;
 
 	i = 0;
-	if (t->nb_philo >= 80)
-	{
-		while (i < t->nb_philo)
-		{
-			if (pthread_join(t[i].my_thread, NULL) != 0)
-				return (ERROR);
-				i++;
-		}
-	}
-	else
-	{
+	// if (t->nb_philo >= 80)
+	// {
+		// while (i < t->nb_philo)
+		// {
+		// 	if (pthread_join(t[i].my_thread, NULL) != 0)
+		// 		return (ERROR);
+		// 	i++;
+		// }
+	// }
+	// else
+	// {
 		while (i < t->nb_philo)
 		{
 			if (pthread_detach(t[i].my_thread) != 0)
 				return (ERROR);
 			i++;
 		}
-	}
+	// }
 	return (EXIT_SUCCESS);
 }
 
@@ -58,6 +58,7 @@ static int	exit_simulation(t_philo *t, pthread_t *god)
 	while (i < t->nb_philo)
 	{
 		pthread_mutex_destroy(t[i].fork);
+		pthread_mutex_destroy(t[i].action);
 		i++;
 	}
 	if (pthread_join(*god, NULL) != 0)

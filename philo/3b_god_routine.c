@@ -6,11 +6,23 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:15:12 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/19 18:28:37 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/23 20:01:29 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	kill_everyone(t_philo *p)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < p->nb_philo)
+	{
+		p[i].died = YES;
+		i++;
+	}
+}
 
 static int	did_someone_die(t_philo *p)
 {
@@ -18,18 +30,19 @@ static int	did_someone_die(t_philo *p)
 	size_t	last_meal;
 
 	i = 0;
-	while (1)
+	while (i < p->nb_philo)
 	{
-		last_meal = get_now(p[0].time_start) - p[i].time_last_meal;
-		if (last_meal > p[0].time_die)
+		last_meal = get_now(p->time_start) - p[i].time_last_meal;
+		if (last_meal > p->time_die)
 		{
+			pthread_mutex_lock(p[i].action);
 			p[i].died = YES;
 			printf("%zu philo %zu died\n", get_now(p[i].time_start), p[i].i_am);
+			kill_everyone(p);
+			pthread_mutex_unlock(p[i].action);
 			return (YES);
 		}
 		i++;
-		if (i == p[0].nb_philo)
-			i = 0;
 	}
 	return (NO);
 }
@@ -41,18 +54,13 @@ static int	did_everyone_eat(t_philo *p)
 
 	i = 0;
 	count = 0;
-	while (1)
+	while (i < p->nb_philo)
 	{
 		if (p[i].all_meals_done == YES)
 			count++;
 		if (count == p->nb_philo)
 			return (YES);
 		i++;
-		if (i == p->nb_philo)
-		{
-			i = 0;
-			count = 0;
-		}
 	}
 	return (NO);
 }
@@ -66,9 +74,9 @@ void	*god_routine(void *everyone)
 		return (NULL);
 	while (1)
 	{
-		if (did_everyone_eat(philos) == YES)
+		if (did_someone_die(philos) == YES)
 			return (NULL);
-		else if (did_someone_die(philos) == YES)
+		if (did_everyone_eat(philos) == YES)
 			return (NULL);
 	}
 	return (NULL);
