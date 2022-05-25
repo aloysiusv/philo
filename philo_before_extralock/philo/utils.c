@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:53:18 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/18 01:01:00 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/24 22:46:14 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ int	ft_atoi(const char *nptr)
 	return (res);
 }
 
-int    oops_crash(t_philo *t, char *error)
+int	oops_crash(t_philo *t, char *error)
 {
-    if (t)
-        free(t);
-    printf("%s\n", error);
-    return (EXIT_FAILURE);
+	if (t)
+		free(t);
+	printf("%s\n", error);
+	return (EXIT_FAILURE);
 }
 
 void	free_all(t_philo *t)
@@ -65,12 +65,8 @@ void	free_all(t_philo *t)
 	size_t	i;
 
 	i = 0;
-	while (i < t[0].nb_philo)
-	{
+	while (i < t->nb_philo)
 		if (t[i].fork)
-			free(t[i].fork);
-		i++;
-	}
+			free(t[i++].fork);
 	free(t);
 }
-
