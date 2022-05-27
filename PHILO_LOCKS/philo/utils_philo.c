@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:26:41 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/27 01:50:26 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:55:42 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,17 @@ size_t	get_timestamp(size_t milli_start)
 	return (milli_now - milli_start);
 }
 
-void	free_mutex_mallocs(t_all *g)
+void	free_tabs(t_all *g)
 {
 	if (g->philos)
 		free(g->philos);
 	if (g->forks)
 		free(g->forks);
-	if (g->writing)
-		free(g->writing);
 }
 
 int	oops_crash(t_all *g, char *error)
 {
-	free_mutex_mallocs(g);
+	free_tabs(g);
 	printf("%s\n", error);
 	return (EXIT_FAILURE);
 }

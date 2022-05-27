@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:09:33 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/27 02:23:08 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:40:53 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,10 @@ static int	init_mutexes(t_all *g)
 		return (ERROR);
 	i = 0;
 	while (i < g->nb_philo)
-		pthread_mutex_init(g->forks[i++], NULL);
-	g->writing = malloc(sizeof(pthread_mutex_t));
-	if (!g->writing)
-		return (free(g->forks), ERROR);
+		pthread_mutex_init(&g->forks[i++], NULL);
 	pthread_mutex_init(&g->writing, NULL);
+	pthread_mutex_init(&g->death, NULL);
+	pthread_mutex_init(&g->miam, NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -75,14 +74,15 @@ static int	init_philo_tab(t_all *g)
 	i = 0;
 	while (i < g->nb_philo)
 	{
+		g->philos[i].god = g;
 		g->philos[i].i_am = i + 1;
 		g->philos[i].eaten = 0;
-		g->philos[i].all_meals_done = 0;
 		g->philos[i].time_last_meal = 0;
 		g->philos[i].fork = i;
 		g->philos[i].nxt_fork = (i + 1) % g->nb_philo;
-		g->philos[i++].god = g;
+		i++;
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	initialising(t_all *g, char *argv[])
@@ -97,7 +97,6 @@ int	initialising(t_all *g, char *argv[])
 		g->nb_meals = ft_atoi(argv[5]);
 	else
 		g->nb_meals = -1;
-	g->one_died = 0;
 	start = get_start_time();
 	if (!start)
 		return (ERROR);

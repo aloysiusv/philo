@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/27 02:22:04 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:32:23 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@
 # define NO		0
 # define YES	1
 
+typedef struct s_all t_all;
+
 typedef struct s_philo
 {
 	size_t		i_am;
 	size_t		eaten;
-	size_t		all_meals_done;
 	long int	time_last_meal;
 	size_t		fork;
 	size_t		nxt_fork;
@@ -43,11 +44,12 @@ typedef struct s_all
 	size_t				time_eat;
 	size_t				time_sleep;
 	size_t				nb_meals;
-	int					one_died;
 	long int			time_start;
 	t_philo				*philos;
-	pthread_mutex_t		*writing;
 	pthread_mutex_t		*forks;
+	pthread_mutex_t		writing;
+	pthread_mutex_t		death;
+	pthread_mutex_t		miam;
 }						t_all;
 
 int		check_args(int argc, char *argv[]);
@@ -55,10 +57,11 @@ int		initialising(t_all *g, char *argv[]);
 int		launch_simulation(t_all *g);
 
 size_t	get_timestamp(size_t milli_start);
-void	*god_routine(void *everyone);
+void	*god_routine(void *philo);
 void	*eat_sleep_think(void *philo);
 
 int		oops_crash(t_all *g, char *error);
+void	free_tabs(t_all *g);
 void	free_all(t_all *g);
 
 #endif // PHILO_H
