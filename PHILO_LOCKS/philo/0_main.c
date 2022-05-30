@@ -6,28 +6,46 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:14:11 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/27 19:52:57 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 00:03:06 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static int	exit_simulation(t_all *god)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < god->nb_philo)
+		if (pthread_detach(god->philos[i++].thread) != 0)
+			return (printf("Detaching failed\n"), ERROR);
+	if (pthread_join(god->god_thread, NULL) != 0)
+		return (printf("Joining god failed\n"), ERROR);
+	i = 0;
+	pthread_mutex_lock(&god->writing);
+	while (i < god->nb_philo)
+		pthread_mutex_destroy(&god->philos[i++].fork);
+	pthread_mutex_unlock(&god->writing);
+	pthread_mutex_destroy(&god->writing);
+	pthread_mutex_destroy(&god->check_death);
+	pthread_mutex_destroy(&god->check_meals);
+	return (EXIT_SUCCESS);
+}
+
 int	main(int argc, char *argv[])
 {
-	t_all			god;
-	pthread_mutex_t	big_lock;
+	t_all	god;
 
-	if (check_args(argc, argv) == ERROR)
-		return (oops_crash(NULL, "error: philo: invalid arguments"));
 	memset(&god, 0, sizeof(t_all));
-	pthread_mutex_init(&big_lock, NULL);
-	pthread_mutex_lock(&big_lock);
+	if (check_args(argc, argv) == ERROR)
+		return (oops_crash(&god, "error: philo: invalid arguments"));
 	if (initialising(&god, argv) == ERROR)
 		return (oops_crash(&god, "error: philo: init failed"));
 	if (launch_simulation(&god) == ERROR)
-		return (oops_crash(&god, "error: philo: couldn't launch simulation"));
-	pthread_mutex_unlock(&big_lock);
-	pthread_mutex_destroy(&big_lock);
+		return (oops_crash(&god, "error: philo: launching failed"));
+	if (exit_simulation(&god) == ERROR)
+		return (oops_crash(&god, "error: philo: exit failed"));
 	free_tabs(&god);
 	return (EXIT_SUCCESS);
 }

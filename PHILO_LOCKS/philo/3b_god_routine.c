@@ -6,38 +6,29 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:15:12 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/26 18:53:46 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 00:12:18 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	kill_everyone(t_philo *p)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < p->nb_philo)
-	{
-		p[i].died = YES;
-		i++;
-	}
-}
-
-static int	did_someone_die(t_philo *p)
+int	did_someone_die(t_all *g)
 {
 	size_t	i;
 	size_t	last_meal;
 
 	i = 0;
-	while (i < p->nb_philo)
+	while (i < g->nb_philo)
 	{
-		last_meal = get_now(p->time_start) - p[i].time_last_meal;
-		if (last_meal > p->time_die)
+		pthread_mutex_lock(&g->check_meals);
+		last_meal = get_timestamp(g->time_start) - g->philos[i].time_last_meal;
+		pthread_mutex_unlock(&g->check_meals);
+		if (last_meal > g->time_die)
 		{
-			kill_everyone(p);
-			printf("%zums philo %zu died\n",
-				get_now(p[i].time_start), p[i].i_am);
+			ft_print(&g->philos[i], "died");
+			pthread_mutex_lock(&g->check_death);
+			g->end = YES;
+			pthread_mutex_unlock(&g->check_death);
 			return (YES);
 		}
 		i++;
@@ -45,33 +36,29 @@ static int	did_someone_die(t_philo *p)
 	return (NO);
 }
 
-static int	did_everyone_eat(t_philo *p)
+int	did_everyone_eat(t_all *g)
 {
 	size_t	i;
 	size_t	count;
 
 	i = 0;
 	count = 0;
-	while (i < p->nb_philo)
+	while (i < g->nb_philo)
 	{
-		if (p[i].all_meals_done == YES)
+		pthread_mutex_lock(&g->check_meals);
+		if (g->philos[i].eaten == g->nb_meals)
 			count++;
-		if (count == p->nb_philo)
+		if (count == g->nb_philo)
+		{
+			pthread_mutex_lock(&g->check_death);
+			g->end = YES;
+			pthread_mutex_unlock(&g->check_death);
+			pthread_mutex_unlock(&g->check_meals);
 			return (YES);
+		}
+		pthread_mutex_unlock(&g->check_meals);
 		i++;
+
 	}
 	return (NO);
-}
-
-void	*god_routine(void *everyone)
-{
-	t_philo	*philos;
-
-	philos = (t_philo *)everyone;
-	if (!philos)
-		return (NULL);
-	while (1)
-		if (did_someone_die(philos) == YES || did_everyone_eat(philos) == YES)
-			return (NULL);
-	return (NULL);
 }
