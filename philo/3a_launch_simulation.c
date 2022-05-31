@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:16:01 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 22:07:00 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 22:46:33 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ int	launch_simulation(t_all *g)
 	size_t	i;
 
 	i = 0;
+	if (g->nb_philo == 1)
+	{
+		printf("%zums philo 1 has taken a fork\n", get_timestamp(g->time_start));
+		usleep(g->time_die * 1000);
+		printf("%zums philo 1 has died\n", get_timestamp(g->time_start));
+		return (EXIT_SUCCESS);
+	}
 	while (i < g->nb_philo)
 	{
 		if (pthread_create(&g->philos[i].thread, NULL,

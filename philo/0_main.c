@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:14:11 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 22:00:33 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 22:46:06 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ int	main(int argc, char *argv[])
 		return (oops_crash(&god, "error: philo: init failed"));
 	if (launch_simulation(&god) == ERROR)
 		return (oops_crash(&god, "error: philo: launching failed"));
-	if (exit_simulation(&god) == ERROR)
-		return (oops_crash(&god, "error: philo: exit failed"));
+	if (god.nb_philo != 1)
+		if (exit_simulation(&god) == ERROR)
+			return (oops_crash(&god, "error: philo: exit failed"));
 	free_tabs(&god);
 	return (EXIT_SUCCESS);
 }
