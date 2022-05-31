@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 22:06:42 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 22:20:36 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,14 @@ int		launch_simulation(t_all *g);
 
 int		did_someone_die(t_all *g);
 int		did_everyone_eat(t_all *g);
-void	*god_routine(void *god);
 int		eat_sleep_think(t_philo *p);
+
 int		ft_print(t_philo *p, char *str);
+size_t	get_timestamp(size_t milli_start);
+size_t	get_start_time(void);
 
 int		oops_crash(t_all *g, char *error);
 void	free_tabs(t_all *g);
 void	free_all(t_all *g);
-
-int		paranoid_usleep(t_philo *p, size_t time_to_pause);
-size_t	get_timestamp(size_t milli_start);
-size_t	get_start_time(void);
 
 #endif // PHILO_H
