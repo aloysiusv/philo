@@ -6,81 +6,55 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:16:01 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/23 18:42:32 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 22:07:00 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	get_now(size_t milli_start)
+void	*god_routine(void *god)
 {
-	struct timeval	tv;
-	size_t			milli_now;
+	t_all	*g;
 
-	gettimeofday(&tv, NULL);
-	milli_now = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (milli_now - milli_start);
-}
-
-static int	join_or_detach(t_philo *t)
-{
-	size_t	i;
-
-	i = 0;
-	// if (t->nb_philo >= 80)
-	// {
-		// while (i < t->nb_philo)
-		// {
-		// 	if (pthread_join(t[i].my_thread, NULL) != 0)
-		// 		return (ERROR);
-		// 	i++;
-		// }
-	// }
-	// else
-	// {
-		while (i < t->nb_philo)
-		{
-			if (pthread_detach(t[i].my_thread) != 0)
-				return (ERROR);
-			i++;
-		}
-	// }
-	return (EXIT_SUCCESS);
-}
-
-static int	exit_simulation(t_philo *t, pthread_t *god)
-{
-	size_t	i;
-
-	i = 0;
-	if (join_or_detach(t) == ERROR)
-		return (ERROR);
-	while (i < t->nb_philo)
+	g = (t_all *)god;
+	if (!g)
+		return (NULL);
+	while (1)
 	{
-		pthread_mutex_destroy(t[i].fork);
-		pthread_mutex_destroy(t[i].action);
-		i++;
+		if (did_someone_die(god) == YES)
+			return (NULL);
+		if (did_everyone_eat(god) == YES)
+			return (NULL);
 	}
-	if (pthread_join(*god, NULL) != 0)
-		return (ERROR);
-	return (EXIT_SUCCESS);
+	return (NULL);
 }
 
-int	launch_simulation(t_philo *t)
+void	*philosophize(void *philo)
 {
-	size_t		i;
-	pthread_t	god;
+	t_philo	*p;
+
+	p = (t_philo *)philo;
+	if (!p)
+		return (NULL);
+	while (1)
+		if (eat_sleep_think(p) == ERROR)
+			return (NULL);
+	return (NULL);
+}
+
+int	launch_simulation(t_all *g)
+{
+	size_t	i;
 
 	i = 0;
-	if (pthread_create(&god, NULL, &god_routine, t) != 0)
-		return (ERROR);
-	while (i < t->nb_philo)
+	while (i < g->nb_philo)
 	{
-		if (pthread_create(&t[i].my_thread, NULL, &eat_sleep_think, &t[i]) != 0)
+		if (pthread_create(&g->philos[i].thread, NULL,
+				&philosophize, &g->philos[i]) != 0)
 			return (ERROR);
 		i++;
 	}
-	if (exit_simulation(t, &god) == ERROR)
+	if (pthread_create(&g->god_thread, NULL, &god_routine, g) != 0)
 		return (ERROR);
 	return (EXIT_SUCCESS);
 }

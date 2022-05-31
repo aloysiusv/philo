@@ -6,61 +6,69 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:15:32 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/23 18:44:26 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:54:50 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static int	ask_god_if_someone_died(t_philo *p)
+{
+	pthread_mutex_lock(&p->god->check_death);
+	if (p->god->end == YES)
+		return (pthread_mutex_unlock(&p->god->check_death), YES);
+	pthread_mutex_unlock(&p->god->check_death);
+	return (NO);
+}
+
 static int	crunch_crunch(t_philo *p)
 {
-	if (p->died == NO && p->all_meals_done == NO)
+	if (!p)
+		return (ERROR);
+	if (p->i_am % 2 == 0)
 	{
-		pthread_mutex_lock(p->fork);
-		printf("%zu philo %zu has taken a fork\n",
-			get_now(p->time_start), p->i_am);
-		if (!p->nxt_fork)
-			return (ERROR);
+		pthread_mutex_lock(&p->fork);
 		pthread_mutex_lock(p->nxt_fork);
-		printf("%zu philo %zu has taken a fork\n",
-			get_now(p->time_start), p->i_am);
-		printf("%zu philo %zu is eating\n", get_now(p->time_start), p->i_am);
-		p->time_last_meal = get_now(p->time_start);
-		p->eaten++;
-		usleep(p->time_eat * 1000);
-		pthread_mutex_unlock(p->fork);
-		pthread_mutex_unlock(p->nxt_fork);
 	}
 	else
-		return (ERROR);
+	{
+		pthread_mutex_lock(p->nxt_fork);
+		pthread_mutex_lock(&p->fork);
+	}
+	ft_print(p, "has taken a fork");
+	ft_print(p, "has taken a fork");
+	ft_print(p, "is eating");
+	pthread_mutex_lock(&p->god->check_meals);
+	p->eaten++;
+	pthread_mutex_unlock(&p->god->check_meals);
+	usleep(p->god->time_eat * 1000);
+	pthread_mutex_unlock(&p->fork);
+	pthread_mutex_unlock(p->nxt_fork);
+	pthread_mutex_lock(&p->god->check_meals);
+	p->time_last_meal = get_timestamp(p->god->time_start);
+	pthread_mutex_unlock(&p->god->check_meals);
 	return (EXIT_SUCCESS);
 }
 
-void	*eat_sleep_think(void *philo)
+int	eat_sleep_think(t_philo *p)
 {
-	t_philo	*p;
-
-	p = (t_philo *)philo;
 	if (!p)
-		return (NULL);
+		return (ERROR);
 	if (p->i_am % 2 == 0)
-		usleep(100);
+		usleep(1000);
 	while (1)
 	{
+		if (ask_god_if_someone_died(p) == YES)
+			return (ERROR);
 		if (crunch_crunch(p) == ERROR)
-			return (NULL);
-		if (p->nb_meals > 0 && p->eaten == p->nb_meals)
-		{
-			p->all_meals_done = YES;
-			return (NULL);
-		}
-		pthread_mutex_lock(p->action);
-		printf("%zu philo %zu is sleeping\n", get_now(p->time_start), p->i_am);
-		usleep(p->time_sleep * 1000);
-		pthread_mutex_unlock(p->action);
-		pthread_mutex_lock(p->action);
-		printf("%zu philo %zu is thinking\n", get_now(p->time_start), p->i_am);
-		pthread_mutex_unlock(p->action);
+			return (ERROR);
+		if (ask_god_if_someone_died(p) == YES)
+			return (ERROR);
+		ft_print(p, "is sleeping");
+		usleep(p->god->time_sleep * 1000);
+		if (ask_god_if_someone_died(p) == YES)
+			return (ERROR);
+		ft_print(p, "thinking");
 	}
-	return (NULL);
+	return (ERROR);
 }

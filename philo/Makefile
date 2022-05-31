@@ -6,7 +6,7 @@
 #    By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/13 18:17:42 by lrandria          #+#    #+#              #
-#    Updated: 2022/05/23 18:22:28 by lrandria         ###   ########.fr        #
+#    Updated: 2022/05/31 21:59:44 by lrandria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS		=	0_main.c \
 				3a_launch_simulation.c \
 				3b_god_routine.c \
 				3c_philos_routine.c \
-				utils.c
+				utils_philo.c
 
 all:			$(NAME)
 

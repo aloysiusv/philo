@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/23 18:29:40 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 22:06:42 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,43 +18,58 @@
 # include <stdio.h>
 # include <sys/time.h> 
 # include <limits.h>
+# include <string.h>
 # include <pthread.h>
 
 # define ERROR	-1
 # define NO		0
 # define YES	1
 
+typedef struct s_all	t_all;
+
 typedef struct s_philo
 {
 	size_t				i_am;
+	size_t				eaten;
+	pthread_t			thread;
+	pthread_mutex_t		fork;
+	pthread_mutex_t		*nxt_fork;
+	long int			time_last_meal;
+	t_all				*god;
+}				t_philo;
+
+typedef struct s_all
+{
 	size_t				nb_philo;
 	size_t				time_die;
 	size_t				time_eat;
 	size_t				time_sleep;
 	size_t				nb_meals;
-	size_t				all_meals_done;
 	long int			time_start;
-	long int			time_last_meal;
-	size_t				eaten;
-	int					died;
-	pthread_t			my_thread;
-	pthread_mutex_t		*fork;
-	pthread_mutex_t		*nxt_fork;
-	pthread_mutex_t		*action;
-}						t_philo;
+	pthread_t			god_thread;
+	size_t				end;
+	t_philo				*philos;
+	pthread_mutex_t		writing;
+	pthread_mutex_t		check_death;
+	pthread_mutex_t		check_meals;
+}						t_all;
 
 int		check_args(int argc, char *argv[]);
-int		initialising(t_philo *t, char *argv[]);
-int		launch_simulation(t_philo *t);
+int		initialising(t_all *g, char *argv[]);
+int		launch_simulation(t_all *g);
 
-size_t	get_now(size_t milli_start);
-void	*god_routine(void *everyone);
-void	*eat_sleep_think(void *philo);
+int		did_someone_die(t_all *g);
+int		did_everyone_eat(t_all *g);
+void	*god_routine(void *god);
+int		eat_sleep_think(t_philo *p);
+int		ft_print(t_philo *p, char *str);
 
-size_t	ft_strlen(const char *s);
-int		ft_isdigit(int c);
-int		ft_atoi(const char *nptr);
-int		oops_crash(t_philo *t, char *error);
-void	free_all(t_philo *t);
+int		oops_crash(t_all *g, char *error);
+void	free_tabs(t_all *g);
+void	free_all(t_all *g);
+
+int		paranoid_usleep(t_philo *p, size_t time_to_pause);
+size_t	get_timestamp(size_t milli_start);
+size_t	get_start_time(void);
 
 #endif // PHILO_H
