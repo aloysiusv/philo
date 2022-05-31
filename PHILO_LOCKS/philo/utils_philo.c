@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:26:41 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 00:10:27 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:21:21 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ void	free_tabs(t_all *g)
 {
 	if (g->philos)
 		free(g->philos);
+}
+
+int	paranoid_usleep(t_philo *p, size_t time_to_pause)
+{
+	size_t	start;
+	size_t	current;
+
+	start = get_start_time();
+	current = get_start_time();
+	while (current - start < time_to_pause)
+	{
+		current = get_start_time();
+		if (p->god->end == YES)
+		{
+			pthread_mutex_unlock(&p->fork);
+			pthread_mutex_unlock(p->nxt_fork);
+			return (ERROR);
+		}
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	ft_print(t_philo *p, char *str)

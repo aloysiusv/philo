@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:16:01 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/30 23:44:03 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:33:25 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	*philosophize(void *philo)
 	if (!p)
 		return (NULL);
 	while (1)
-		eat_sleep_think(p);
+		if (eat_sleep_think(p) == ERROR)
+			return (NULL);
 	return (NULL);
 }
 
