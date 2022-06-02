@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 22:20:36 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/02 21:47:40 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int		eat_sleep_think(t_philo *p);
 
 int		ft_print(t_philo *p, char *str);
 size_t	get_timestamp(size_t milli_start);
-size_t	get_start_time(void);
+
+int		ft_isdigit(int c);
+size_t	ft_strlen(const char *s);
+int		ft_atoi(const char *nptr);
 
 int		oops_crash(t_all *g, char *error);
 void	free_tabs(t_all *g);

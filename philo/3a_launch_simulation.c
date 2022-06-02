@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:16:01 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 22:46:33 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/01 20:09:40 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	launch_simulation(t_all *g)
 	{
 		printf("%zums philo 1 has taken a fork\n", get_timestamp(g->time_start));
 		usleep(g->time_die * 1000);
-		printf("%zums philo 1 has died\n", get_timestamp(g->time_start));
+		printf("%zums philo 1 has died\n", get_timestamp(g->time_start) + 1);
 		return (EXIT_SUCCESS);
 	}
 	while (i < g->nb_philo)

@@ -6,13 +6,13 @@
 #    By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/13 18:17:42 by lrandria          #+#    #+#              #
-#    Updated: 2022/05/31 21:59:44 by lrandria         ###   ########.fr        #
+#    Updated: 2022/06/02 22:00:06 by lrandria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -pthread -g3
+CFLAGS		=	-Wall -Wextra -Werror -pthread
 OBJS		=	$(SRCS:.c=.o)
 HDR			=	./philo.h
 SRCS		=	0_main.c \
@@ -21,7 +21,8 @@ SRCS		=	0_main.c \
 				3a_launch_simulation.c \
 				3b_god_routine.c \
 				3c_philos_routine.c \
-				utils_philo.c
+				4a_utils_philo.c \
+				4b_utils_libft.c
 
 all:			$(NAME)
 
