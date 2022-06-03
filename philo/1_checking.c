@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 19:02:37 by lrandria          #+#    #+#             */
-/*   Updated: 2022/06/02 21:51:27 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:15:56 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	is_str_only_digits(char *str)
 int	check_args(int argc, char *argv[])
 {
 	size_t	i;
+	long	num;
 
 	if (argc < 5 || argc > 6)
 		return (ERROR);
@@ -50,7 +51,8 @@ int	check_args(int argc, char *argv[])
 			return (ERROR);
 		if (is_str_int_sized(argv[i]) == ERROR)
 			return (ERROR);
-		if (ft_atoi(argv[i]) == 0)
+		num = ft_atol(argv[i]);
+		if (num == 0 || num > INT_MAX)
 			return (ERROR);
 		i++;
 	}

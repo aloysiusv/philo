@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:15:12 by lrandria          #+#    #+#             */
-/*   Updated: 2022/05/31 22:06:22 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:00:05 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	did_someone_die(t_all *g)
 	while (i < g->nb_philo)
 	{
 		pthread_mutex_lock(&g->check_meals);
-		last_meal = get_timestamp(g->time_start) - g->philos[i].time_last_meal;
+		last_meal
+			= get_time(g->time_start, TIMESTAMP) - g->philos[i].time_last_meal;
 		pthread_mutex_unlock(&g->check_meals);
 		if (last_meal > g->time_die)
 		{

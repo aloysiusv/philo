@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:09:33 by lrandria          #+#    #+#             */
-/*   Updated: 2022/06/02 22:02:21 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:08:34 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,31 +50,20 @@ static int	init_philo_tab(t_all *g)
 	return (EXIT_SUCCESS);
 }
 
-static size_t	get_start_time(void)
-{
-	struct timeval	tv;
-	size_t			start;
-
-	if (gettimeofday(&tv, NULL) == ERROR)
-		return (0);
-	start = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (start);
-}
-
 int	initialising(t_all *g, char *argv[])
 {
 	size_t	start;
 
-	g->nb_philo = ft_atoi(argv[1]);
-	g->time_die = ft_atoi(argv[2]);
-	g->time_die = ft_atoi(argv[2]);
-	g->time_eat = ft_atoi(argv[3]);
-	g->time_sleep = ft_atoi(argv[4]);
+	g->nb_philo = ft_atol(argv[1]);
+	g->time_die = ft_atol(argv[2]);
+	g->time_die = ft_atol(argv[2]);
+	g->time_eat = ft_atol(argv[3]);
+	g->time_sleep = ft_atol(argv[4]);
 	if (argv[5])
-		g->nb_meals = ft_atoi(argv[5]);
+		g->nb_meals = ft_atol(argv[5]);
 	else
 		g->nb_meals = -1;
-	start = get_start_time();
+	start = get_time(0, CURRENT_TIME);
 	if (!start)
 		return (ERROR);
 	g->time_start = start;

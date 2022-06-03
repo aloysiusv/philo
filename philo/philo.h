@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 18:15:26 by lrandria          #+#    #+#             */
-/*   Updated: 2022/06/02 21:47:40 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:18:45 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 # include <string.h>
 # include <pthread.h>
 
-# define ERROR	-1
-# define NO		0
-# define YES	1
+# define ERROR			-1
+# define NO				0
+# define YES			1
+
+# define CURRENT_TIME	0
+# define TIMESTAMP		1
 
 typedef struct s_all	t_all;
 
@@ -62,12 +65,14 @@ int		did_someone_die(t_all *g);
 int		did_everyone_eat(t_all *g);
 int		eat_sleep_think(t_philo *p);
 
+int		are_we_done_yet(t_philo *p);
 int		ft_print(t_philo *p, char *str);
-size_t	get_timestamp(size_t milli_start);
+int		paranoid_usleep(t_all *g, size_t duration);
+size_t	get_time(size_t start_time, int option);
 
 int		ft_isdigit(int c);
 size_t	ft_strlen(const char *s);
-int		ft_atoi(const char *nptr);
+long	ft_atol(const char *nptr);
 
 int		oops_crash(t_all *g, char *error);
 void	free_tabs(t_all *g);

@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_philo.c                                      :+:      :+:    :+:   */
+/*   4a_utils_philo.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:26:41 by lrandria          #+#    #+#             */
-/*   Updated: 2022/06/02 21:51:37 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:03:58 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	get_timestamp(size_t milli_start)
+size_t	get_time(size_t start_time, int option)
 {
 	struct timeval	tv;
-	size_t			milli_now;
+	size_t			current;
 
-	gettimeofday(&tv, NULL);
-	milli_now = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (milli_now - milli_start);
+	if (gettimeofday(&tv, NULL) == ERROR)
+		return (0);
+	current = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	if (option == TIMESTAMP)
+		return (current - start_time);
+	return (current);
+}
+
+int	paranoid_usleep(t_all *god, size_t duration)
+{
+	size_t	end;
+
+	end = get_time(0, CURRENT_TIME) + duration;
+	while (get_time(0, CURRENT_TIME) < end)
+	{
+		if (are_we_done_yet(&god->philos[0]) == YES)
+			return (ERROR);
+		usleep(100);
+	}
+	return (0);
 }
 
 int	ft_print(t_philo *p, char *str)
@@ -29,22 +46,9 @@ int	ft_print(t_philo *p, char *str)
 	{
 		pthread_mutex_lock(&p->god->writing);
 		printf("%zums philo %zu %s\n",
-			get_timestamp(p->god->time_start), p->i_am, str);
+			get_time(p->god->time_start, TIMESTAMP), p->i_am, str);
 		pthread_mutex_unlock(&p->god->writing);
 	}
 	pthread_mutex_unlock(&p->god->check_death);
 	return (EXIT_SUCCESS);
-}
-
-void	free_tabs(t_all *g)
-{
-	if (g->philos)
-		free(g->philos);
-}
-
-int	oops_crash(t_all *g, char *error)
-{
-	free_tabs(g);
-	printf("%s\n", error);
-	return (ERROR);
 }

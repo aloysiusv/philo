@@ -6,7 +6,7 @@
 #    By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/13 18:17:42 by lrandria          #+#    #+#              #
-#    Updated: 2022/06/02 22:00:06 by lrandria         ###   ########.fr        #
+#    Updated: 2022/06/03 06:26:29 by lrandria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS		=	0_main.c \
 				3b_god_routine.c \
 				3c_philos_routine.c \
 				4a_utils_philo.c \
-				4b_utils_libft.c
+				4b_utils_libft.c \
+				4c_utils_free.c
 
 all:			$(NAME)
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_libft.c                                      :+:      :+:    :+:   */
+/*   4b_utils_libft.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 21:44:04 by lrandria          #+#    #+#             */
-/*   Updated: 2022/06/02 21:53:20 by lrandria         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:13:23 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int	ft_atoi(const char *nptr)
+long	ft_atol(const char *nptr)
 {
-	int	i;
-	int	sign;
-	int	res;
+	int		i;
+	int		sign;
+	long	res;
 
 	i = 0;
 	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
